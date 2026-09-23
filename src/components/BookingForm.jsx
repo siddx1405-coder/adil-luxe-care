@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, MapPin, Sparkles, Send } from 'lucide-react';
+import { Calendar, Clock, MapPin, Sparkles, Send, Check } from 'lucide-react';
 import { salonInfo, serviceCategories } from '../salonData';
 
 export default function BookingForm({ lang }) {
@@ -9,12 +9,28 @@ export default function BookingForm({ lang }) {
     name: '',
     phone: '',
     serviceType: 'salon',
-    serviceName: serviceCategories[0].items[0].name,
+    selectedServices: [], // Store multiple selected services
     date: '',
     timeSlot: '1:30 PM',
     address: '',
     notes: ''
   });
+
+  // Toggle selection for multiple services
+  const handleServiceToggle = (service) => {
+    const isSelected = formData.selectedServices.some((s) => s.name === service.name);
+    if (isSelected) {
+      setFormData({
+        ...formData,
+        selectedServices: formData.selectedServices.filter((s) => s.name !== service.name)
+      });
+    } else {
+      setFormData({
+        ...formData,
+        selectedServices: [...formData.selectedServices, service]
+      });
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,11 +39,21 @@ export default function BookingForm({ lang }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (formData.selectedServices.length === 0) {
+      alert(isAr ? 'الرجاء اختيار خدمة واحدة على الأقل' : 'Please select at least one service.');
+      return;
+    }
+
+    // Format list of services for WhatsApp
+    const serviceListText = formData.selectedServices
+      .map((s) => `• ${isAr ? s.arabicName : s.name} (${s.price} ${isAr ? 'ر.ق' : 'QR'})`)
+      .join('%0A');
+
     const message =
       `✨ *NEW BOOKING REQUEST* ✨%0A%0A` +
       `👤 *Name:* ${formData.name}%0A` +
       `📞 *Phone:* ${formData.phone}%0A` +
-      `💅 *Service:* ${formData.serviceName}%0A` +
+      `💅 *Selected Services:*%0A${serviceListText}%0A%0A` +
       `📍 *Location Type:* ${
         formData.serviceType === 'home' ? 'Home Service (+50 QR fee)' : 'Salon Visit'
       }%0A` +
@@ -40,13 +66,16 @@ export default function BookingForm({ lang }) {
     window.open(`https://wa.me/${cleanWhatsapp}?text=${message}`, '_blank');
   };
 
+  // Updated custom time slots list
   const timeOptions = [
-    { value: '1:30 AM - 2:00 AM', en: '1:30 AM - 2:00 AM (Late Night)', ar: '1:30 صباحاً - 2:00 صباحاً (متأخر)' },
-    { value: '10:00 AM', en: '10:00 AM Morning', ar: '10:00 صباحاً' },
     { value: '1:30 PM', en: '1:30 PM Afternoon', ar: '1:30 ظهراً' },
-    { value: '5:00 PM', en: '5:00 PM Evening', ar: '5:00 مساءً' },
-    { value: '9:00 PM', en: '9:00 PM Night', ar: '9:00 مساءً' },
-    { value: '11:30 PM', en: '11:30 PM Late Night', ar: '11:30 مساءً' }
+    { value: '3:30 PM', en: '3:30 PM Afternoon', ar: '3:30 عصراً' },
+    { value: '4:30 PM', en: '4:30 PM Afternoon', ar: '4:30 عصراً' },
+    { value: '7:30 PM', en: '7:30 PM Evening', ar: '7:30 مساءً' },
+    { value: '8:30 PM', en: '8:30 PM Evening', ar: '8:30 مساءً' },
+    { value: '10:30 PM', en: '10:30 PM Night', ar: '10:30 مساءً' },
+    { value: '11:30 PM', en: '11:30 PM Late Night', ar: '11:30 مساءً' },
+    { value: '1:30 AM', en: '1:30 AM Late Night', ar: '1:30 صباحاً' }
   ];
 
   return (
@@ -63,14 +92,14 @@ export default function BookingForm({ lang }) {
           </h2>
           <p className="text-xs md:text-sm text-pink-700">
             {isAr
-              ? 'اختاري موعدكِ والمكان المفضل وسنتواصل معكِ فوراً عبر الواتساب'
-              : 'Choose your date, preferred service, and whether you want salon or home service!'}
+              ? 'اختاري موعدكِ والخدمات المفضلة وسنتواصل معكِ فوراً عبر الواتساب'
+              : 'Choose your preferred services, date, time, and whether you want salon or home service!'}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Service Type Selection */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setFormData({ ...formData, serviceType: 'salon' })}
@@ -96,6 +125,57 @@ export default function BookingForm({ lang }) {
               <Sparkles size={18} />
               <span>{isAr ? 'خدمة منازل (+50 ر.ق)' : 'Home Service (+50 QR)'}</span>
             </button>
+          </div>
+
+          {/* Multiple Services Selection Checklist */}
+          <div>
+            <label className="block text-xs font-bold text-pink-900 mb-2">
+              {isAr ? 'اختر الخدمات (يمكنك اختيار أكثر من خدمة):' : 'Select Treatment(s) - Multiple Choice:'}
+            </label>
+            <div className="max-h-60 overflow-y-auto space-y-2 p-3 bg-pink-50/50 rounded-2xl border border-pink-200">
+              {serviceCategories.map((cat) => (
+                <div key={cat.name} className="space-y-1.5">
+                  <span className="text-[11px] font-bold text-pink-600 block pt-1 px-1">
+                    {isAr ? cat.arabicName : cat.name}
+                  </span>
+                  {cat.items.map((item) => {
+                    const isChecked = formData.selectedServices.some((s) => s.name === item.name);
+                    return (
+                      <div
+                        key={item.name}
+                        onClick={() => handleServiceToggle(item)}
+                        className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
+                          isChecked
+                            ? 'bg-pink-500 text-white border-pink-500 font-semibold shadow-xs'
+                            : 'bg-white text-pink-900 border-pink-100 hover:border-pink-300'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                          <div
+                            className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
+                              isChecked ? 'bg-white text-pink-600 border-white' : 'border-pink-300'
+                            }`}
+                          >
+                            {isChecked && <Check size={12} strokeWidth={3} />}
+                          </div>
+                          <span>{isAr ? item.arabicName : item.name}</span>
+                        </div>
+                        <span className={isChecked ? 'text-pink-100 font-bold' : 'text-pink-600 font-bold'}>
+                          {item.price} {isAr ? 'ر.ق' : 'QR'}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            {formData.selectedServices.length > 0 && (
+              <p className="text-[11px] text-pink-600 font-medium mt-1.5 px-1">
+                {isAr
+                  ? `تم اختيار ${formData.selectedServices.length} خدمة/خدمات`
+                  : `Selected Services: ${formData.selectedServices.length}`}
+              </p>
+            )}
           </div>
 
           {/* Name & Phone */}
@@ -128,27 +208,6 @@ export default function BookingForm({ lang }) {
                 className="w-full px-4 py-2.5 rounded-xl border border-pink-200 text-xs md:text-sm focus:outline-none focus:border-pink-500 bg-pink-50/30"
               />
             </div>
-          </div>
-
-          {/* Service Selection */}
-          <div>
-            <label className="block text-xs font-bold text-pink-900 mb-1">
-              {isAr ? 'اختر الخدمة' : 'Select Treatment'}
-            </label>
-            <select
-              name="serviceName"
-              value={formData.serviceName}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 rounded-xl border border-pink-200 text-xs md:text-sm focus:outline-none focus:border-pink-500 bg-pink-50/30"
-            >
-              {serviceCategories.flatMap((cat) =>
-                cat.items.map((item) => (
-                  <option key={item.name} value={item.name}>
-                    {isAr ? item.arabicName : item.name} — {item.price} {isAr ? 'ر.ق' : 'QR'}
-                  </option>
-                ))
-              )}
-            </select>
           </div>
 
           {/* Date & Time Slot */}
