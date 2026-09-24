@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { serviceCategories } from '../salonData';
 
@@ -11,7 +11,7 @@ export default function Services({ lang }) {
       <div className="max-w-4xl mx-auto">
         {/* Section Title */}
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex items-center space-x-1 rtl:space-x-reverse text-pink-500 font-bold text-xs uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-1 text-pink-500 font-bold text-xs uppercase tracking-widest">
             <Sparkles size={14} />
             <span>{isAr ? 'قائمة الخدمات والأسعار' : 'Pricelist & Treatments'}</span>
           </div>
@@ -31,11 +31,11 @@ export default function Services({ lang }) {
             <button
               key={cat.name}
               onClick={() => setActiveTab(idx)}
-              className={`whitespace-nowrap px-4 py-2 rounded-2xl text-xs md:text-sm font-bold transition-all cursor-pointer ${
-                activeTab === idx
-                  ? 'bg-pink-500 text-white shadow-md'
-                  : 'bg-pink-50 text-pink-800 border border-pink-200 hover:bg-pink-100'
-              }`}
+              aria-pressed={activeTab === idx}
+              className={`whitespace-nowrap px-4 py-2 rounded-2xl text-xs md:text-sm font-bold transition-all cursor-pointer ${activeTab === idx
+                ? 'bg-pink-500 text-white shadow-md'
+                : 'bg-pink-50 text-pink-800 border border-pink-200 hover:bg-pink-100'
+                }`}
             >
               {isAr ? cat.arabicName : cat.name}
             </button>
@@ -49,12 +49,12 @@ export default function Services({ lang }) {
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4">
-            {serviceCategories[activeTab].items.map((item, idx) => (
+            {serviceCategories[activeTab].items.map((item) => (
               <div
-                key={idx}
+                key={item.name}
                 className="flex items-center justify-between p-3 rounded-2xl bg-white border border-pink-100 shadow-xs hover:border-pink-300 transition-all"
               >
-                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                <div className="flex items-center space-x-2">
                   <CheckCircle2 size={16} className="text-pink-400 shrink-0" />
                   <span className="text-xs md:text-sm font-semibold text-pink-950">
                     {isAr ? item.arabicName : item.name}

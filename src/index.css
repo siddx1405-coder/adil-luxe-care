@@ -7,6 +7,27 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   }
 }
+
 html {
   scroll-behavior: smooth;
+}
+
+/* Stop section headings from hiding under the sticky navbar when jumping to #services, #booking, etc. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Used by the Services tabs; it was referenced but never defined */
+@utility no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

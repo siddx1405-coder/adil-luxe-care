@@ -1,4 +1,3 @@
-import React from 'react';
 import { MapPin, Phone, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { salonInfo } from '../salonData';
 
@@ -10,7 +9,7 @@ export default function Footer({ lang }) {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-pink-800">
         {/* Brand & CR details */}
         <div className="space-y-3">
-          <div className="flex items-center space-x-3 rtl:space-x-reverse">
+          <div className="flex items-center space-x-3">
             <img
               src={salonInfo.logo}
               alt="Adil Luxe Care Logo"
@@ -26,13 +25,13 @@ export default function Footer({ lang }) {
               : 'Luxury boutique salon and spa services in Doha, Qatar. Dedicated to bringing you high-end nail care and wellness treatments.'}
           </p>
           <div className="pt-2 text-[11px] text-pink-300 space-y-1">
-            <p className="flex items-center space-x-1 rtl:space-x-reverse">
+            <p className="flex items-center space-x-1">
               <ShieldCheck size={14} className="text-pink-400" />
               <span>
                 {isAr ? 'السجل التجاري:' : 'C.R. No.:'} {salonInfo.crNo}
               </span>
             </p>
-            <p className="ltr:ml-5 rtl:mr-5">
+            <p className="ms-5">
               {isAr ? 'صندوق البريد:' : 'P.O. Box:'} {salonInfo.poBox}
             </p>
           </div>
@@ -50,7 +49,7 @@ export default function Footer({ lang }) {
                 href={salonInfo.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-start space-x-2 rtl:space-x-reverse hover:text-white transition-colors cursor-pointer group"
+                className="flex items-start space-x-2 hover:text-white transition-colors cursor-pointer group"
               >
                 <MapPin size={16} className="text-pink-400 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                 <span className="underline underline-offset-2">
@@ -58,7 +57,7 @@ export default function Footer({ lang }) {
                 </span>
               </a>
             </li>
-            <li className="flex items-center space-x-2 rtl:space-x-reverse">
+            <li className="flex items-center space-x-2">
               <Clock size={16} className="text-pink-400 shrink-0" />
               <span>{isAr ? salonInfo.hoursAr : salonInfo.hours}</span>
             </li>
@@ -74,17 +73,17 @@ export default function Footer({ lang }) {
             <a
               href={`https://wa.me/${salonInfo.whatsapp.replace(/[^0-9]/g, '')}`}
               target="_blank"
-              rel="noreferrer"
-              className="flex items-center space-x-2 rtl:space-x-reverse hover:text-white transition-colors"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 hover:text-white transition-colors"
             >
               <Phone size={16} className="text-pink-400" />
-              <span>{salonInfo.phoneDisplay}</span>
+              <span dir="ltr">{salonInfo.phoneDisplay}</span>
             </a>
             <a
               href={salonInfo.facebookUrl}
               target="_blank"
-              rel="noreferrer"
-              className="flex items-center space-x-2 rtl:space-x-reverse hover:text-white transition-colors pt-1"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 hover:text-white transition-colors pt-1"
             >
               <Globe size={16} className="text-pink-400" />
               <span>{isAr ? 'فيسبوك أديل لوكس كير' : 'Adil Luxe Care Facebook'}</span>
@@ -98,7 +97,7 @@ export default function Footer({ lang }) {
         <p>
           © {new Date().getFullYear()} {isAr ? salonInfo.arabicName : 'Adil Luxe Care Beauty Service'}. {isAr ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}
         </p>
-        <p className="flex items-center space-x-1 rtl:space-x-reverse">
+        <p className="flex items-center space-x-1">
           <span>{isAr ? 'صُمم بواسطة' : 'Made by'}</span>
           <a
             href="https://www.xenosysweb.com/"

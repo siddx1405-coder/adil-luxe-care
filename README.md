@@ -1,16 +1,39 @@
-# React + Vite
+# Adil Luxe Care – website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+One-page bilingual (English / Arabic) website for Adil Luxe Care, a nail & beauty salon in Doha.
+Built with React + Vite + Tailwind CSS. Bookings are sent to the salon's WhatsApp.
 
-Currently, two official plugins are available:
+## Run it on your computer
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Needs Node.js 20.19+ or 22.12+ (`node -v` to check).
 
-## React Compiler
+```bash
+npm install      # first time only
+npm run dev      # open the http://localhost:5173 link it prints
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+> Opening `index.html` directly or with VS Code Live Server shows a blank page – always use `npm run dev`.
 
-## Expanding the ESLint configuration
+## Before going live: set the domain
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Search the project for `https://adilluxecarebeautyservices.com` and replace it with the real domain
+(VS Code: Ctrl+Shift+H → Replace All). It appears in:
+
+- `index.html` (SEO tags + structured data)
+- `public/robots.txt`
+- `public/sitemap.xml`
+
+## Build / deploy
+
+```bash
+npm run build    # creates the dist/ folder
+npm run preview  # test the built site locally
+```
+
+Cloudflare Pages settings: preset **React (Vite)**, build command `npm run build`,
+output directory `dist`, environment variable `NODE_VERSION = 22`.
+
+## Editing content
+
+All text, prices, images, phone number and address live in `src/salonData.js`.
+Images and the hero video are in `public/`.

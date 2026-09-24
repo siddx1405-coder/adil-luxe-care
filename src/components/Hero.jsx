@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heart, Sparkles, Calendar, Clock, MapPin } from 'lucide-react';
 import { salonInfo } from '../salonData';
 
@@ -8,7 +7,7 @@ export default function Hero({ lang }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-pink-100 via-pink-50 to-pink-100 py-12 md:py-16 px-4">
       {/* Faded Logo Watermark Background */}
-      <div 
+      <div
         className="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-5 pointer-events-none scale-125 md:scale-110 filter blur-[1px]"
         style={{ backgroundImage: `url(${salonInfo.logo})` }}
       />
@@ -24,7 +23,7 @@ export default function Hero({ lang }) {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center relative z-10">
         {/* Left Column: Text & CTA */}
         <div className="space-y-6">
-          <div className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-pink-200/80 text-pink-800 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full border border-pink-300 shadow-sm">
+          <div className="inline-flex items-center space-x-2 bg-pink-200/80 text-pink-800 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full border border-pink-300 shadow-sm">
             <Sparkles size={14} className="text-pink-600" />
             <span>{isAr ? 'خدمة فاخرة على مدار 24 ساعة' : 'Luxury Beauty & Spa Services • 24/7'}</span>
           </div>
@@ -49,7 +48,7 @@ export default function Hero({ lang }) {
 
           {/* Quick Details Badges */}
           <div className="flex flex-wrap gap-2 pt-1 text-xs text-pink-800 font-medium">
-            <div className="flex items-center space-x-1 rtl:space-x-reverse bg-white/80 px-3 py-1.5 rounded-lg border border-pink-200 shadow-xs">
+            <div className="flex items-center space-x-1 bg-white/80 px-3 py-1.5 rounded-lg border border-pink-200 shadow-xs">
               <Clock size={14} className="text-pink-500" />
               <span>{isAr ? salonInfo.hoursAr : salonInfo.hours}</span>
             </div>
@@ -59,7 +58,7 @@ export default function Hero({ lang }) {
               href={salonInfo.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-1 rtl:space-x-reverse bg-white/80 hover:bg-pink-200/60 transition-colors px-3 py-1.5 rounded-lg border border-pink-200 shadow-xs cursor-pointer"
+              className="flex items-center space-x-1 bg-white/80 hover:bg-pink-200/60 transition-colors px-3 py-1.5 rounded-lg border border-pink-200 shadow-xs cursor-pointer"
             >
               <MapPin size={14} className="text-pink-500" />
               <span className="underline underline-offset-2">
@@ -72,14 +71,14 @@ export default function Hero({ lang }) {
           <div className="flex flex-wrap gap-3 pt-2">
             <a
               href="#booking"
-              className="flex items-center space-x-2 rtl:space-x-reverse bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
+              className="flex items-center space-x-2 bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all cursor-pointer"
             >
               <Calendar size={18} />
               <span>{isAr ? 'احجزي الآن' : 'Book Appointment'}</span>
             </a>
             <a
               href="#services"
-              className="flex items-center space-x-2 rtl:space-x-reverse bg-white hover:bg-pink-100 text-pink-700 font-bold px-6 py-3 rounded-full border border-pink-300 shadow-sm transition-all cursor-pointer"
+              className="flex items-center space-x-2 bg-white hover:bg-pink-100 text-pink-700 font-bold px-6 py-3 rounded-full border border-pink-300 shadow-sm transition-all cursor-pointer"
             >
               <span>{isAr ? 'قائمة الخدمات' : 'View Menu'}</span>
             </a>
@@ -96,6 +95,8 @@ export default function Hero({ lang }) {
               loop
               muted
               playsInline
+              preload="metadata"
+              aria-hidden="true"
               className="w-full h-80 md:h-96 object-cover"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white">

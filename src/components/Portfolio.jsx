@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Sparkles, Heart } from 'lucide-react';
 import { portfolioItems } from '../salonData';
 
@@ -7,6 +7,11 @@ export default function Portfolio({ lang }) {
   const [activeCategory, setActiveCategory] = useState('All');
 
   const categories = ['All', ...new Set(portfolioItems.map((item) => item.category))];
+
+  // English category name -> Arabic name, taken straight from salonData.js
+  const arabicCategoryNames = Object.fromEntries(
+    portfolioItems.map((item) => [item.category, item.arabicCategory])
+  );
 
   const filteredItems =
     activeCategory === 'All'
@@ -18,7 +23,7 @@ export default function Portfolio({ lang }) {
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center space-y-2 mb-8">
-          <div className="inline-flex items-center space-x-1 rtl:space-x-reverse text-pink-500 font-bold text-xs uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-1 text-pink-500 font-bold text-xs uppercase tracking-widest">
             <Sparkles size={14} />
             <span>{isAr ? 'معرض الأعمال' : 'Our Work'}</span>
           </div>
@@ -35,58 +40,17 @@ export default function Portfolio({ lang }) {
         {/* Category Filters */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((cat) => {
-            const displayCat =
-              cat === 'All'
-                ? isAr
-                  ? 'الكل'
-                  : 'All'
-                : cat === 'Nail Art'
-                ? isAr
-                  ? 'فن الأظافر'
-                  : 'Nail Art'
-                : cat === 'Custom Art'
-                ? isAr
-                  ? 'تصاميم خاصة'
-                  : 'Custom Art'
-                : cat === 'Luxury Nails'
-                ? isAr
-                  ? 'أظافر فاخرة'
-                  : 'Luxury Nails'
-                : cat === 'Chrome Nails'
-                ? isAr
-                  ? 'أظافر كروم'
-                  : 'Chrome Nails'
-                : cat === 'Girly Art'
-                ? isAr
-                  ? 'تصاميم أنثوية'
-                  : 'Girly Art'
-                : cat === 'Trendy Nails'
-                ? isAr
-                  ? 'عصرية'
-                  : 'Trendy Nails'
-                : cat === 'Minimalist'
-                ? isAr
-                  ? 'بسيطة'
-                  : 'Minimalist'
-                : cat === 'Classic Gel'
-                ? isAr
-                  ? 'جل كلاسيك'
-                  : 'Classic Gel'
-                : cat === 'Bridal Art'
-                ? isAr
-                  ? 'للمناسبات والعرائس'
-                  : 'Bridal Art'
-                : cat;
+            const displayCat = cat === 'All' ? (isAr ? 'الكل' : 'All') : isAr ? arabicCategoryNames[cat] : cat;
 
             return (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeCategory === cat
-                    ? 'bg-pink-500 text-white shadow-md'
-                    : 'bg-white text-pink-700 border border-pink-200 hover:bg-pink-100'
-                }`}
+                aria-pressed={activeCategory === cat}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${activeCategory === cat
+                  ? 'bg-pink-500 text-white shadow-md'
+                  : 'bg-white text-pink-700 border border-pink-200 hover:bg-pink-100'
+                  }`}
               >
                 {displayCat}
               </button>
@@ -109,7 +73,7 @@ export default function Portfolio({ lang }) {
                   loading="lazy"
                 />
               </div>
-              <div className="p-3 bg-white text-left rtl:text-right">
+              <div className="p-3 bg-white text-start">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-pink-500">
                   {isAr ? item.arabicCategory : item.category}
                 </span>
@@ -117,7 +81,7 @@ export default function Portfolio({ lang }) {
                   {isAr ? item.arabicTitle : item.title}
                 </h3>
               </div>
-              <div className="absolute top-2 right-2 rtl:right-auto rtl:left-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 p-1.5 rounded-full text-pink-500 shadow-md">
+              <div className="absolute top-2 end-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 p-1.5 rounded-full text-pink-500 shadow-md">
                 <Heart size={14} fill="currentColor" />
               </div>
             </div>
